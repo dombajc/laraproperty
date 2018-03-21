@@ -164,32 +164,62 @@ class PenjualanController extends Controller
                 return self::get_pdf($load_data, $header);
                 break;
             case 'excel':
-                return Excel::create('payments', function($excel) use ($load_data) {
+                return Excel::create('payments', function($excel) use ($load_data, $header) {
 
                     // Set the spreadsheet title, creator, and description
                     $excel->setTitle('Payments');
                     $excel->setCreator('Laravel')->setCompany('WJ Gilmore, LLC');
                     $excel->setDescription('payments file');
 
-                    $excel->sheet('Sheetname', function($sheet) use ($load_data) {
+                    $excel->sheet('Sheetname', function($sheet) use ($load_data, $header) {
+                        $sheet->loadView('excel.testexcel',['header'=>$header, 'load_data'=>$load_data]);
+                        $sheet->mergeCells('A1:M1');
+
+                        $jml_header = explode('<br>', $header);
+                        $row = 3;
+                        if ( count($jml_header) >0 ) {
+                            foreach($jml_header as $r ) {
+                                $sheet->mergeCells('A'. $row .':M'. $row);
+                                $row++;
+                            }
+
+                            $sheet->cells('A3:A'. $row, function($cells) {
+                                $cells->setAlignment('center');
+                                $cells->setFont(array(
+                                    'family'     => 'Calibri',
+                                    'size'       => '12',
+                                    'bold'       =>  true
+                                ));
+                            });
+                        }
 
                         $sheet->cell('A1', function($cell) {
                             $cell->setAlignment('center');
-                            $cell->setValue('LAPORAN TRANSAKSI PENJUALAN RUMAHSUBSIDICERIA');
-                            
                             $cell->setFont(array(
                                 'family'     => 'Calibri',
                                 'size'       => '16',
                                 'bold'       =>  true
                             ));
                         });
-                        $sheet->mergeCells('A1:M1');
 
-                        $sheet->fromArray($load_data, null, 'A8', false, false);
+                        // Set border for range
+                        $row++;
+                        $sheet->setBorder('A'. $row .':M'. $row, 'thin');
+                        $row_start = $row + 1;
+                        $row_last = $row + count($load_data);
+                        
+                        $sheet->cells('A'. $row_start .':M'. $row_last, function($cells) {
+                            $cells->setBorder('thin', 'thin', 'thin', 'thin');
+                            $cells->setFont(array(
+                                'family'     => 'Calibri',
+                                'size'       => '12'
+                            ));
+                        });
+                        $sheet->setAutoSize(true);
                 
                     });
             
-                    // Build the spreadsheet, passing in the payments array
+                    
                     
             
                 })->download('xlsx');
@@ -216,9 +246,9 @@ class PenjualanController extends Controller
             <td align="center">'. $r->nm_proyek .'</td>
             <td align="right">'. number_format($r->total,0) .'</td>
             <td align="center" width="50px">'. $r->cara_pembayaran .'</td>
-            <td align="center" width="50px">'. $r->cara_pembayaran .'</td>
-            <td align="center" width="50px">'. $r->cara_pembayaran .'</td>
-            <td align="center" width="50px">'. $r->cara_pembayaran .'</td>
+            <td align="center" width="50px">'. $r->tgl_wawancara .'</td>
+            <td align="center" width="50px">'. $r->tgl_sp3k .'</td>
+            <td align="center" width="50px">'. $r->tgl_akad .'</td>
             <td align="center">'. $r->nm_marketing .'</td>
             </tr>';
             $no++;
@@ -290,9 +320,9 @@ class PenjualanController extends Controller
             <td align="center">'. $r->nm_proyek .'</td>
             <td align="right" width="8%">'. number_format($r->total,0) .'</td>
             <td align="center" width="8%">'. $r->cara_pembayaran .'</td>
-            <td align="center" width="8%">'. $r->cara_pembayaran .'</td>
-            <td align="center" width="8%">'. $r->cara_pembayaran .'</td>
-            <td align="center" width="8%">'. $r->cara_pembayaran .'</td>
+            <td align="center" width="8%">'. $r->tgl_wawancara .'</td>
+            <td align="center" width="8%">'. $r->tgl_sp3k .'</td>
+            <td align="center" width="8%">'. $r->tgl_akad .'</td>
             <td align="center">'. $r->nm_marketing .'</td>
             </tr>';
             $no++;
