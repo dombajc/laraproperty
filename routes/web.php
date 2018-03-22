@@ -102,6 +102,16 @@ Route::group(['middleware' => ['checkSess']], function () {
     Route::get('r_resume_proyek', 'ProyekController@page_laporan');
     Route::get('r_resume_proyek/report', 'ProyekController@show_laporan');
     Route::get('r_resume_proyek/findTipeByProyek', 'KaplingController@jsonGetTipeByProyek');
+
+    Route::get('profile', 'ProfileController@index');
+    Route::post('profile/update_profile', 'ProfileController@perbaharui_profile');
+
+    Route::get('change_password', 'ProfileController@page_change_password');
+    Route::post('change_password/update_password', 'ProfileController@perbaharui_password');
+    Route::get('change_password/success', function(){
+        return redirect('log-out');
+    });
+    
 });
 
 

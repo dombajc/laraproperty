@@ -834,6 +834,7 @@ body {
         position: relative; }
         .wrapper .side-nav .user-side-profile .user-image img {
           width: 100%;
+          height:105%;
           -webkit-border-radius: 50%;
           -moz-border-radius: 50%;
           -ms-border-radius: 50%;

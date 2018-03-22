@@ -3,7 +3,7 @@
 @section('content')
 <div class="top-banner">
     <div class="top-banner-title">Dashboard</div>
-    <div class="top-banner-subtitle">Welcome back, John Doe, <i class="fa fa-map-marker"></i> New York City</div>
+    <div class="top-banner-subtitle">Selamat Datang di Aplikasi Management Penjualan Rumah Subsidi Ceria</div>
 </div>
 <div class="content with-top-banner">
     <div class="content-header no-mg-top">

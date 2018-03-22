@@ -1,7 +1,8 @@
+<?php $user = App\Users::getSess()->first()  ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Pongo | Admin Template</title>
+        <title>Administrator Rumah Subsidi Ceria</title>
         <meta charset="utf-8">
         <meta content="ie=edge" http-equiv="x-ua-compatible">
         <meta content="template language" name="keywords">
@@ -31,36 +32,25 @@
                 <div class="logo-wrapper">
                     <div class="logo-box">
                         <a href="">
-                            <div class="logo-title">ManTEP2 v1.0</div>
+                            <div class="logo-title">ADMIN</div>
                         </a>
                     </div>
                 </div>
                 <div class="top-nav-content">
                     <div class="top-nav-box">
                         <div class="top-notification">
-                            <div class="notification-icon">
-                                <i class="fa fa-envelope-open"></i>
-                            </div>
-                            <div class="notification-icon">
-                                <div class="notification-badge bounceInDown animated timer" data-from="0" data-to="21">21</div>
-                                <i class="fa fa-comments"></i>
-                            </div>
-                            <div class="notification-icon">
-                                <div class="notification-badge bounceInDown animated timer" data-from="0" data-to="3">3</div>
-                                <i class="fa fa-bell"></i>
-                            </div>
+                            
                         </div>
                         <div class="user-top-profile">
                             <div class="user-image">
                                 <div class="user-on"></div>
-                                <img alt="pongo" src="{{ url('images/default_profile.png') }}">
+                                <img alt="pongo" src="{{ $user->uri_profile }}" height="40px">
                             </div>
                             <div class="clear">
-                                <div class="user-name">John Doe</div>
-                                <div class="user-group">Administrator</div>
+                                <div class="user-name">{{ $user->nm_user }}</div>
                                 <ul class="user-top-menu animated bounceInUp">
-                                    <li><a href="">Lihat Profile</a></li>
-                                    <li><a href="">Ubah Kata Sandi</a></li>
+                                    <li><a href="{{ url('profile') }}">Lihat Profile</a></li>
+                                    <li><a href="{{ url('change_password') }}">Ubah Kata Sandi</a></li>
                                     <li><a href="{{ url('log-out') }}">Keluar</a></li>
                                 </ul>
                             </div>
@@ -75,14 +65,13 @@
                 <div class="user-side-profile">
                     <div class="user-image">
                         <div class="user-on"></div>
-                        <img alt="pongo" src="{{ url('images/default_profile.png') }}">
+                        <img alt="pongo" src="{{ $user->uri_profile }}">
                     </div>
                     <div class="clear">
-                        <div class="user-name">John Doe</div>
-                        <div class="user-group">Administrator</div>
+                        <div class="user-name">{{ $user->nm_user }}</div>
                         <ul class="user-side-menu animated bounceInUp">
-                            <li><a href="">Lihat Profile</a></li>
-                            <li><a href="">Ubah Kata Sandi</a></li>
+                            <li><a href="{{ url('profile') }}">Lihat Profile</a></li>
+                            <li><a href="{{ url('change_password') }}">Ubah Kata Sandi</a></li>
                             <li><a href="{{ url('log-out') }}">Keluar</a></li>
                         </ul>
                     </div>

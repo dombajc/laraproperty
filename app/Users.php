@@ -148,7 +148,53 @@ class Users extends Model
     }
 
     public static function getSess() {
-        return Users::select('nm_user', 'hak_akses')
+        return Users::selectRaw("nm_user,hak_akses,ifnull(uri_profile,'') as uri_profile")
             ->where('id_user', Session::get('idu'));
+    }
+
+    public static function update_profile() {
+        DB::beginTransaction();
+        try {
+            Users::where('id_user', Session::get('idu'))
+                ->update([
+                    'nm_user' => Fungsi::cleanXSS(Input::get('txtnama')),
+                    'uri_profile' => Input::get('uri_slctfoto'),
+                    'updated_by' => Session::get('idu')
+                ]);
+            
+            DB::commit();
+        } catch ( \Iluminate\Database\QueryException $e ) {
+            DB::rollback();
+            return $e->getMessage();
+        } catch ( \Exception $e ) {
+            DB::rollback();
+            return $e->getMessage();
+        } catch ( \PDOException $e ) {
+            DB::rollback();
+            return $e->getMessage();
+        }
+    }
+
+    public static function update_password ()
+    {
+        DB::beginTransaction();
+        try {
+            Users::where('id_user', Session::get('idu'))
+                ->update([
+                    'pass' => Fungsi::cleanXSS(Input::get('txtpass')),
+                    'enc_pass' => md5(Fungsi::cleanXSS(Input::get('txtpass'))),
+                ]);
+            
+            DB::commit();
+        } catch ( \Iluminate\Database\QueryException $e ) {
+            DB::rollback();
+            return $e->getMessage();
+        } catch ( \Exception $e ) {
+            DB::rollback();
+            return $e->getMessage();
+        } catch ( \PDOException $e ) {
+            DB::rollback();
+            return $e->getMessage();
+        }
     }
 }

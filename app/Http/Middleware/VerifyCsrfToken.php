@@ -28,6 +28,8 @@ class VerifyCsrfToken extends Middleware
         'data_pembatalan/view',
         'data_pembatalan/action',
         'log-in/checklogin',
-        'set_app/save'
+        'set_app/save',
+        'profile/update_profile',
+        'change_password/update_password'
     ];
 }
