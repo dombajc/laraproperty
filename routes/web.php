@@ -94,6 +94,14 @@ Route::group(['middleware' => ['checkSess']], function () {
     Route::get('r_transaksi', 'PenjualanController@page_laporan');
     Route::get('r_transaksi/report', 'PenjualanController@show_laporan');
     Route::get('r_transaksi/findTipeByProyek', 'KaplingController@jsonGetTipeByProyek');
+
+    Route::get('r_pembatalan', 'PembatalanController@page_laporan');
+    Route::get('r_pembatalan/report', 'PembatalanController@show_laporan');
+    Route::get('r_pembatalan/findTipeByProyek', 'KaplingController@jsonGetTipeByProyek');
+
+    Route::get('r_resume_proyek', 'ProyekController@page_laporan');
+    Route::get('r_resume_proyek/report', 'ProyekController@show_laporan');
+    Route::get('r_resume_proyek/findTipeByProyek', 'KaplingController@jsonGetTipeByProyek');
 });
 
 

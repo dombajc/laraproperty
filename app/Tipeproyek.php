@@ -213,7 +213,7 @@ class Tipeproyek extends Model
         echo $html;
     }
 
-    private static function get_arr_tipe_by_proyek($id_proyek) {
+    public static function get_arr_tipe_by_proyek($id_proyek) {
         return Tipeproyek::selectRaw("id_tipe_proyek,nm_tipe,harga_standar,luas_bangunan,jml_kmr_tidur,jml_kmr_mandi,garasi")
             ->where('id_proyek', $id_proyek)
             ->get();

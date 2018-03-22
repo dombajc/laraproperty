@@ -164,69 +164,69 @@ class PenjualanController extends Controller
                 return self::get_pdf($load_data, $header);
                 break;
             case 'excel':
-                return Excel::create('payments', function($excel) use ($load_data, $header) {
-
-                    // Set the spreadsheet title, creator, and description
-                    $excel->setTitle('Payments');
-                    $excel->setCreator('Laravel')->setCompany('WJ Gilmore, LLC');
-                    $excel->setDescription('payments file');
-
-                    $excel->sheet('Sheetname', function($sheet) use ($load_data, $header) {
-                        $sheet->loadView('excel.testexcel',['header'=>$header, 'load_data'=>$load_data]);
-                        $sheet->mergeCells('A1:M1');
-
-                        $jml_header = explode('<br>', $header);
-                        $row = 3;
-                        if ( count($jml_header) >0 ) {
-                            foreach($jml_header as $r ) {
-                                $sheet->mergeCells('A'. $row .':M'. $row);
-                                $row++;
-                            }
-
-                            $sheet->cells('A3:A'. $row, function($cells) {
-                                $cells->setAlignment('center');
-                                $cells->setFont(array(
-                                    'family'     => 'Calibri',
-                                    'size'       => '12',
-                                    'bold'       =>  true
-                                ));
-                            });
-                        }
-
-                        $sheet->cell('A1', function($cell) {
-                            $cell->setAlignment('center');
-                            $cell->setFont(array(
-                                'family'     => 'Calibri',
-                                'size'       => '16',
-                                'bold'       =>  true
-                            ));
-                        });
-
-                        // Set border for range
-                        $row++;
-                        $sheet->setBorder('A'. $row .':M'. $row, 'thin');
-                        $row_start = $row + 1;
-                        $row_last = $row + count($load_data);
-                        
-                        $sheet->cells('A'. $row_start .':M'. $row_last, function($cells) {
-                            $cells->setBorder('thin', 'thin', 'thin', 'thin');
-                            $cells->setFont(array(
-                                'family'     => 'Calibri',
-                                'size'       => '12'
-                            ));
-                        });
-                        $sheet->setAutoSize(true);
-                
-                    });
-            
-                    
-                    
-            
-                })->download('xlsx');
+                return self::get_excel($load_data, $header);
                 break;
             default :
                 break;
         }
+    }
+
+    private static function get_excel($load_data, $header) {
+        return Excel::create('Laporan Penjualan', function($excel) use ($load_data, $header) {
+
+            // Set the spreadsheet title, creator, and description
+            $excel->setTitle('Laporan Penjualan');
+            $excel->setCreator('Laravel')->setCompany('Rumah Subsidi Ceria');
+            $excel->setDescription('Laporan Penjualan Rumah Subsidi Ceria');
+
+            $excel->sheet('Laporan Penjualan', function($sheet) use ($load_data, $header) {
+                $sheet->loadView('excel.laporan_penjualan',['header'=>$header, 'load_data'=>$load_data]);
+                $sheet->mergeCells('A1:M1');
+
+                $jml_header = explode('<br>', $header);
+                $row = 3;
+                if ( count($jml_header) >0 ) {
+                    foreach($jml_header as $r ) {
+                        $sheet->mergeCells('A'. $row .':M'. $row);
+                        $row++;
+                    }
+
+                    $sheet->cells('A3:A'. $row, function($cells) {
+                        $cells->setAlignment('center');
+                        $cells->setFont(array(
+                            'family'     => 'Calibri',
+                            'size'       => '12',
+                            'bold'       =>  true
+                        ));
+                    });
+                }
+
+                $sheet->cell('A1', function($cell) {
+                    $cell->setAlignment('center');
+                    $cell->setFont(array(
+                        'family'     => 'Calibri',
+                        'size'       => '16',
+                        'bold'       =>  true
+                    ));
+                });
+
+                // Set border for range
+                $row++;
+                $sheet->setBorder('A'. $row .':M'. $row, 'thin');
+                $row_start = $row + 1;
+                $row_last = $row + count($load_data);
+                
+                $sheet->cells('A'. $row_start .':M'. $row_last, function($cells) {
+                    $cells->setBorder('thin', 'thin', 'thin', 'thin');
+                    $cells->setFont(array(
+                        'family'     => 'Calibri',
+                        'size'       => '12'
+                    ));
+                });
+                $sheet->setAutoSize(true);
+        
+            });
+        })->download('xlsx');
     }
 
     private static function get_preview($load_data, $header) {

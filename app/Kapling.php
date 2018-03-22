@@ -255,8 +255,8 @@ class Kapling extends Model
             ->paginate(10);
     }
 
-    private static function get_laporan_resume_per_proyek() {
-        return Kapling::selectRaw("id_tipe_proyek,alamat
+    public static function get_laporan_resume_per_proyek($id_proyek) {
+        return Kapling::selectRaw("dt_tipe_proyek.id_tipe_proyek,alamat
             ,if(ifnull(id_tr_jual,'') = '','-', 'Terjual') as sts_terjual
             ,if(ifnull(id_tr_jual,'') = '','-', date_format(tgl_jual, '%d-%m-%Y')) as tgl_terjual
             ,if(ifnull(id_tr_jual,'') = '','-',
@@ -267,18 +267,18 @@ class Kapling extends Model
                 ,'Akad')
             ) as sts_proses")
             ->leftJoin('dt_tr_jual', function($left){
-                $left::on('dt_tr_jual.id_kapling_proyek','dt_kapling_proyek.id_kapling_proyek')
+                $left->on('dt_tr_jual.id_kapling_proyek','dt_kapling_proyek.id_kapling_proyek')
                     ->where('sts_batal',0);
             })
             ->leftJoin('dt_tipe_proyek','dt_tipe_proyek.id_tipe_proyek','dt_kapling_proyek.id_tipe_proyek')
-            ->whereRaw("id_proyek=''")
+            ->whereRaw("id_proyek='". $id_proyek ."'")
             ->get();
     }
 
-    public static function get_arr_by_tipe_proyek() {
+    public static function get_arr_by_tipe_proyek($id_proyek) {
         $arr = array();
-        foreach( self::get_laporan_resume_per_proyek() as $r ) {
-            $arr[$r->id_tipe_proyek] = $r;
+        foreach( self::get_laporan_resume_per_proyek($id_proyek) as $r ) {
+            $arr[$r->id_tipe_proyek][] = $r;
         }
         return $arr;
     }

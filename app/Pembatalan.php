@@ -221,9 +221,16 @@ class Pembatalan extends Model
             ->first();
     }
 
-    public static function get_laporan_pembatalan() {
+    public static function get_laporan_pembatalan($req) {
+        $where = 'dt_tr_batal.sts_aktif=1';
+        $where .= empty($req->p) ? '' : " and dt_proyek.id_proyek='". $req->p ."'";
+        $where .= empty($req->t) ? '' : " and dt_tipe_proyek.id_tipe_proyek='". $req->t ."'";
+        $where .= empty($req->s) ? '' : " and tgl_batal>='". Fungsi::formatdatetosql($req->s) ."'";
+        $where .= empty($req->e) ? '' : " and tgl_batal<='". Fungsi::formatdatetosql($req->e) ."'";
+
         return Pembatalan::selectRaw("date_format(tgl_batal,'%d-%m-%Y') as tgl_batal,alasan,nm_konsumen,no_hp
         ,date_format(tgl_jual,'%d-%m-%Y') as tgl_jual
+        ,dt_kapling_proyek.alamat
         ,nm_tipe,nm_proyek
         ,nm_marketing")
         ->leftjoin('dt_tr_jual', 'dt_tr_jual.id_tr_jual', 'dt_tr_batal.id_tr_jual')        
@@ -232,7 +239,7 @@ class Pembatalan extends Model
         ->leftjoin('dt_tipe_proyek', 'dt_tipe_proyek.id_tipe_proyek', 'dt_kapling_proyek.id_tipe_proyek')
         ->leftjoin('dt_proyek', 'dt_proyek.id_proyek', 'dt_tipe_proyek.id_proyek')
         ->leftjoin('dt_marketing', 'dt_marketing.id_marketing', 'dt_tr_jual.id_marketing')
-        ->whereRaw("dt_tr_batal.sts_aktif=1")
+        ->whereRaw($where)
         ->get();
     }
 }

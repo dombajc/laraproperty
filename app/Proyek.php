@@ -287,7 +287,7 @@ class Proyek extends Model
     }
 
     public static function getById($id) {
-        return Proyek::select('id_proyek','uri_pic_master_plan','pic_master_plan','nm_proyek', 'pic_proyek', 'uri_pic_proyek', 'file_brosur', 'desc_proyek','lat','lang','radius','luas_proyek', 'alamat', 'desc_proyek', 'nm_provinsi', 'nm_kecamatan', 'nm_kota', 'nm_kelurahan')
+        return Proyek::select('id_proyek','uri_pic_master_plan','pic_master_plan','nm_proyek', 'pic_proyek', 'uri_pic_proyek', 'file_brosur', 'desc_proyek','lat','lang','radius','luas_proyek', 'alamat', 'desc_proyek', 'nm_provinsi', 'nm_kecamatan', 'nm_kota', 'nm_kelurahan','periode_mulai','periode_selesai')
             ->leftJoin('dt_kelurahan', 'dt_kelurahan.id_kelurahan', 'dt_proyek.id_kelurahan')
             ->leftJoin('dt_kecamatan', 'dt_kecamatan.id_kecamatan', 'dt_kelurahan.id_kecamatan')
             ->leftJoin('dt_kota', 'dt_kota.id_kota', 'dt_kecamatan.id_kota')
@@ -455,5 +455,13 @@ class Proyek extends Model
             $opsi .= '<option value="'. str_replace(' ', '_', strtolower($r->nm_proyek)) .'"> '. $r->nm_proyek .' </option>';
         }
         echo $opsi;
+    }
+
+    public static function arr_resume_by_id($id) {
+        return array(
+            'get_proyek' => self::getById($id),
+            'arr_tipe' =>Tipeproyek::get_arr_tipe_by_proyek($id),
+            'arr_kapling' => Kapling::get_arr_by_tipe_proyek($id)
+        );
     }
 }
