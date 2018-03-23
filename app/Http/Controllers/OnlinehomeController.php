@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Aplikasi;
+use App\Slider;
 
 class OnlinehomeController extends Controller
 {
@@ -14,7 +15,8 @@ class OnlinehomeController extends Controller
             'Rowsnews' => Posts::getOnlineHome()
         ]);*/
         return view('online4.home')->with([
-            'R' => Aplikasi::getApp()
+            'R' => Aplikasi::getApp(),
+            'sliders' => Slider::get_arr_aktif()
         ]);
     }
 }

@@ -226,8 +226,6 @@
 	<script src="{{ url('online4/js/variables.js') }}"></script>
 	<script src="{{ url('online4/js/custom_scripts.js') }}"></script>
 	
-	<!-- Agencies list -->
-	<script src="{{ url('online4/js/agencies.js') }}"></script>
 	
 	<script type="text/javascript">
 		(function($){

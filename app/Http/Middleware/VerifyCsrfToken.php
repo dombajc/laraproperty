@@ -30,6 +30,8 @@ class VerifyCsrfToken extends Middleware
         'log-in/checklogin',
         'set_app/save',
         'profile/update_profile',
-        'change_password/update_password'
+        'change_password/update_password',
+        'set_slider/action',
+        'set_slider/view'
     ];
 }

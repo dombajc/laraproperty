@@ -21,6 +21,11 @@ Route::group(['middleware' => ['checkSess']], function () {
     Route::get('set_app', 'AppsController@index');
     Route::post('set_app/save', 'AppsController@act');
 
+    Route::get('set_slider', 'SliderController@index');
+    Route::post('set_slider/action', 'SliderController@act');
+    Route::get('set_slider/rows', 'SliderController@datatable');
+    Route::post('set_slider/view', 'SliderController@viewById');
+
     Route::get('set_user', 'UsersController@index');
     Route::get('set_user/rows', 'UsersController@datatable');
     Route::post('set_user/action', 'UsersController@act');
